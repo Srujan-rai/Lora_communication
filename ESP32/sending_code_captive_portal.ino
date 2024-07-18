@@ -1,24 +1,24 @@
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
 
-// Replace with your network credentials
+
 const char* ap_ssid = "ESP32_AP_Transmitter";
 const char* ap_password = "11111111";
 
 AsyncWebServer server(80);
 
 void setup() {
-  Serial.begin(9600); // For communication with Arduino
+  Serial.begin(9600); 
   Serial.println("ESP32 is ready");
 
-  // Set up Wi-Fi Access Point
+  
   WiFi.softAP(ap_ssid, ap_password);
   Serial.println("Access Point started");
   IPAddress IP = WiFi.softAPIP();
   Serial.print("IP Address: ");
   Serial.println(IP);
 
-  // HTML content with JavaScript for popup and reload
+  
   const char* html = R"rawliteral(
   <!DOCTYPE HTML><html>
   <head><title>LoRa Sender</title></head>
@@ -47,19 +47,19 @@ void setup() {
   </body>
   </html>)rawliteral";
 
-  // Serve HTML page
+  
   server.on("/", HTTP_GET, [html](AsyncWebServerRequest *request){
     request->send(200, "text/html", html);
   });
 
-  // Send message
+  
   server.on("/send", HTTP_GET, [](AsyncWebServerRequest *request){
     String message;
     if (request->hasParam("message")) {
       message = request->getParam("message")->value();
-      Serial.println("Sending message: " + message); // Print the message to Serial
+      Serial.println("Sending message: " + message); 
 
-      // TODO: Add code to send the message via LoRa here
+      
 
       request->send(200, "text/plain", "Message sent: " + message);
     } else {
@@ -67,15 +67,15 @@ void setup() {
     }
   });
 
-  // Captive Portal Redirect
+  
   server.onNotFound([](AsyncWebServerRequest *request) {
     request->redirect("/");
   });
 
-  // Start the server
+  
   server.begin();
 }
 
 void loop() {
-  // Nothing needed here
+
 }

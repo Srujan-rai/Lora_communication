@@ -1,23 +1,23 @@
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
 
-// Define Wi-Fi credentials for the Access Point
+
 const char* ap_ssid = "LoRa_ESP32_transmitter";
 const char* ap_password = "11111111";
 
 AsyncWebServer server(80);
 
 void setup() {
-  Serial.begin(9600); // For communication with Arduino
+  Serial.begin(9600); 
   Serial.println("ESP32 is ready");
 
-  // Set up Wi-Fi Access Point
+  
   WiFi.softAP(ap_ssid, ap_password);
   Serial.println("Access Point started");
   Serial.print("IP Address: ");
   Serial.println(WiFi.softAPIP());
 
-  // HTML content with JavaScript for sending messages
+  
   const char* html = R"rawliteral(
   <!DOCTYPE HTML><html>
   <head><title>LoRa Sender</title></head>
@@ -46,19 +46,19 @@ void setup() {
   </body>
   </html>)rawliteral";
 
-  // Serve HTML page
+  
   server.on("/", HTTP_GET, [html](AsyncWebServerRequest *request){
     request->send(200, "text/html", html);
   });
 
-  // Handle sending messages
+  
   server.on("/send", HTTP_GET, [](AsyncWebServerRequest *request){
     String message;
     if (request->hasParam("message")) {
       message = request->getParam("message")->value();
-      Serial.println("Sending message: " + message); // Print the message to Serial
+      Serial.println("Sending message: " + message); 
 
-      // TODO: Add code to send the message via LoRa here
+      
 
       request->send(200, "text/plain", "Message sent: " + message);
     } else {
@@ -66,10 +66,10 @@ void setup() {
     }
   });
 
-  // Start the server
+  
   server.begin();
 }
 
 void loop() {
-  // Nothing needed here
+  
 }
