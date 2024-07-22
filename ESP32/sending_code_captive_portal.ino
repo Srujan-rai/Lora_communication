@@ -1,6 +1,6 @@
 
 //this code opens the captive portal in 192.168.4.1 ip address where an server is hosted
-
+//esp32
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
 
