@@ -94,7 +94,6 @@ void setup() {
 }
 
 void loop() {
-  // Read GPS data
   while (ss.available() > 0) {
     gps.encode(ss.read());
   }
