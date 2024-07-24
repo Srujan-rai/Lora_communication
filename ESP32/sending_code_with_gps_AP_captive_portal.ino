@@ -68,16 +68,19 @@ void setup() {
     String message;
     if (request->hasParam("message")) {
       message = request->getParam("message")->value();
-      Serial.println("Sending message: " + message); 
+      //Serial.println("Sending message: " + message); 
 
       String gpsData = "";
       if (gps.location.isValid()) {
         gpsData = "Lat: " + String(gps.location.lat(), 6) + ", Lon: " + String(gps.location.lng(), 6);
       } else {
-        gpsData = "GPS data not available";
+        gpsData = "longitude:      ,latitude:   ";
       }
 
       String combinedMessage = "Message: " + message + "\n" + gpsData;
+
+      Serial.println("Sending message: " + combinedMessage); 
+
 
 
       request->send(200, "text/plain", "Message sent: " + combinedMessage);

@@ -14,6 +14,7 @@ const char* html = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head><title>LoRa Receiver</title></head>
 <body>
+  <h1>ResQ-LoRa</h1>
   <h1>Received Messages</h1>
   <div id="messages"></div>
   <script>
@@ -45,7 +46,7 @@ void setup() {
   server.on("/messages", HTTP_GET, [](AsyncWebServerRequest *request){
     String messageList;
     for (const String& message : messages) {
-      messageList += "Received message: " + message + "\n";
+      messageList += " " + message + "\n";
     }
     request->send(200, "text/plain", messageList);
   });
@@ -67,11 +68,11 @@ void loop() {
     receivedMessage.trim(); 
 
     if (receivedMessage.length() > 0) { 
-      Serial.print("Received message: ");
+      Serial.print(" ");
       Serial.println(receivedMessage);
 
       if (messages.size() >= MAX_MESSAGES) {
-        messages.pop_front();
+        messages.pop_front(); 
       }
       messages.push_back(receivedMessage);
     }
